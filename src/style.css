@@ -14,17 +14,3 @@ html, body {
                "Segoe UI", "Microsoft YaHei",
                "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100dvh;
-}
-
-.slogan {
-  border: 1px solid burlywood;
-  border-radius: 5%;
-  padding: 1%;
-  font-size: 2rem;
-}
