@@ -1,7 +1,7 @@
 <template>
   <div class="app">
 
-    <div class="slogan-layer">
+    <div class="slogan-layer" @click="playMegeruAudio">
       <Slogan :text="CIALLO_WITH_KAOMOJI" :duration="1" />
     </div>
 
@@ -11,8 +11,14 @@
 <script setup>
 
   import Slogan from './components/Slogan.vue';
+  import megeruAudio from './assets/meguru.aac';
 
-  const CIALLO_WITH_KAOMOJI = 'Ciallo ~ (∠・ω< )⌒★'
+  const CIALLO_WITH_KAOMOJI = 'Ciallo ~ (∠・ω< )⌒★';
+
+  function playMegeruAudio() {
+    const sound = new Audio(megeruAudio);
+    sound.play().catch(err => console.warn('Megeru audio play failed', err))
+  }
 
 </script>
 
