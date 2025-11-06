@@ -1,0 +1,48 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      # Trigger gh-pages build when pushing to this branch
+      - master
+
+# allow create gh-pages branch and update gh-pages branch
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latests
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+          run_install: true
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Write CNAME file
+        run: |
+          if [ -n "${{ vars.CNAME }}" ]; then
+            echo "${{ vars.CNAME }}" > dist/CNAME
+          else
+            echo "CNAME variable not set. Skipping CNAME file creation."
+          fi
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
