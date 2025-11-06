@@ -5,6 +5,8 @@
       <Slogan :text="CIALLO_WITH_KAOMOJI" :duration="1" />
     </div>
 
+    <Marquee :strings="[CIALLO_WITH_KAOMOJI]" :duration="16" />
+
   </div>
 </template>
 
@@ -12,6 +14,7 @@
 
   import Slogan from './components/Slogan.vue';
   import megeruAudio from './assets/meguru.aac';
+  import Marquee from './components/Marquee.vue';
 
   const CIALLO_WITH_KAOMOJI = 'Ciallo ~ (∠・ω< )⌒★';
 
