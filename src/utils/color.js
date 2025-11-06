@@ -50,7 +50,7 @@ export function randomMixColor() {
 
 // pick a random color from the base colors
 export function randomBaseColor() {
-  return baseColors[Math.floor(Math.random() * (baseColors.length - 1))]
+  return baseColors[Math.floor(Math.random() * baseColors.length)]
 }
 
 export function getBaseColors() {
