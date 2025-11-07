@@ -54,22 +54,45 @@
   }
 
   let timer;
+  function startTimer() {
+    if (!timer) {
+      timer = setInterval(() => {
+        if (bullets.value.length < 91 && Math.random() > 0.2) {
+          bullets.value.push(createBullet());
+        }
+      }, 500);
+    }
+  }
+
+  function stopTimer() {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  function visibilityChangeListener() {
+    if (document.visibilityState === 'visible') {
+      startTimer();
+    } else {
+      stopTimer();
+    }
+  }
+
   onMounted(() => {
     for(let i = 0; i < 5; i++) {
-      let bullet = createBullet();
-      bullets.value.push(bullet);
-    }
-
-    timer = setInterval(() => {
-    if (bullets.value.length < 100 && Math.random() > 0.2) {
       bullets.value.push(createBullet());
     }
-  }, 500);
+
+    startTimer();
+    document.addEventListener('visibilitychange', visibilityChangeListener);
   })
 
   onUnmounted(() => {
     bullets.value.splice(0);
-    clearInterval(timer);
+    
+    stopTimer();
+    document.removeEventListener('visibilitychange', visibilityChangeListener);
   })
 
   function removeBullet(id) {
