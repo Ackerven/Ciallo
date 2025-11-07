@@ -57,8 +57,9 @@
 }
 
 .footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom);
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
