@@ -16,7 +16,7 @@
 
 <script setup>
   import { onMounted, onUnmounted, ref } from 'vue';
-  import { randomMixHslColor } from '../utils/color';
+  import { randomMixOklchColor } from '../utils/color';
 
   const props = defineProps({
     strings: {type: Array, default: () => ["Oops!"]},
@@ -35,7 +35,7 @@
     const track = Math.random() * 100;
     const duration = props.duration;
     const delay = Math.random() * (props.duration / 10);
-    const color = randomMixHslColor();
+    const color = randomMixOklchColor();
     const size = 14 + Math.random() * 52;
     const opacity = 0.7 + Math.random() * 0.3;
 
