@@ -7,6 +7,14 @@
 
     <Marquee :strings="[CIALLO_WITH_KAOMOJI]" :duration="16" />
 
+    <div class="footer">
+      <Footer
+        :year="2025"
+        :name="'Ackerven'" :link="'https://ackerven.com'"
+        :repo="'https://github.com/ackerven/Ciallo'"
+      />
+    </div>
+
   </div>
 </template>
 
@@ -15,6 +23,7 @@
   import Slogan from './components/Slogan.vue';
   import megeruAudio from './assets/meguru.aac';
   import Marquee from './components/Marquee.vue';
+  import Footer from './components/Footer.vue';
 
   const CIALLO_WITH_KAOMOJI = 'Ciallo ~ (∠・ω< )⌒★';
 
@@ -45,6 +54,16 @@
   cursor: pointer;
   z-index: 10;
   user-select: none;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 90%;
+  z-index: 10;
 }
 
 </style>
