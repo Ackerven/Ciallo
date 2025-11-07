@@ -73,6 +73,7 @@
 
   function visibilityChangeListener() {
     if (document.visibilityState === 'visible') {
+      bullets.value.splice(10);
       startTimer();
     } else {
       stopTimer();
