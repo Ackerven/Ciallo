@@ -73,7 +73,9 @@ So just commit, push, and — *poof!* — it’s live ✨
    })
    ```
 
-2. Make sure you commit and push to **master**:
+2. Go to your repository’s **Settings → Pages → Build and deployment** section, set the **Branch** to `gh-pages`.
+
+3. Make sure you commit and push to **master**:
 
    ```bash
    git add .
@@ -81,9 +83,12 @@ So just commit, push, and — *poof!* — it’s live ✨
    git push origin master
    ```
 
-3. Once the push is complete, GitHub Actions will automatically build and deploy your site 🎉
+4. Once the push is complete, GitHub Actions will automatically build and deploy your site 🎉
 
    Visit your live page at `https://<username>.github.io/<repository-name>`
+
+> [!TIP]
+> If you forget to set the branch to `gh-pages`, your deployment will succeed but the site won’t be accessible at `https://<username>.github.io/<repository-name>/` — so don’t skip this step!
 
 > [!TIP]
 > If you want to deploy from a branch other than `master` (for example, `main`):
@@ -117,9 +122,8 @@ To set up a custom domain:
    })
    ```
 
-2. Go to **Settings → Variables → Repository variables**  
-3. Add a new variable named `CNAME`, and set its value to `<yourdomain.com>`  
-4. In your domain DNS settings, add a **CNAME record** that points `<yourdomain.com>` to `<username>.github.io`  
+2. Go to **Settings → Variables → Repository variables**, add a new variable named `CNAME`, and set its value to `<yourdomain.com>`
+3. In your domain DNS settings, add a **CNAME record** that points `<yourdomain.com>` to `<username>.github.io`
 
 GitHub Pages will automatically generate a `CNAME` file for you 💌
 
@@ -142,9 +146,9 @@ GitHub Pages will automatically generate a `CNAME` file for you 💌
 
 ## 💖 Credits
 
-- Original project: [qxdn/ciallo](https://github.com/qxdn/ciallo)  
-- Rebuilt with ❤️ using Vue 3  
-- Color theme inspired by 因幡めぐる (*Inaba Meguru*) 🌷  
+- Original project: [qxdn/ciallo](https://github.com/qxdn/ciallo)
+- Rebuilt with ❤️ using Vue 3
+- Color theme inspired by 因幡めぐる (*Inaba Meguru*) 🌷
 
 ---
 
