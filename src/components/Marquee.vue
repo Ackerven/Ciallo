@@ -6,7 +6,7 @@
       :key="bullet.id"
       class="bullet-text"
       :style="styleOfBullet(bullet)"
-      @animationend="removeBullet(bullet.id)"
+      :ref="el => { if (el) elMap.set(bullet.id, el); else elMap.delete(bullet.id); }"
     >
       {{ bullet.text }}
     </p>
@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-  import { onMounted, onUnmounted, ref } from 'vue';
+  import { nextTick, onMounted, onUnmounted, ref } from 'vue';
   import { randomMixOklchColor } from '../utils/color';
 
   const props = defineProps({
@@ -28,13 +28,15 @@
   }
 
   const bullets = ref([]);
+  const animations = new Map();
+  const elMap = new Map();
 
   function createBullet() {
     const id = Date.now() + Math.floor(Math.random() * 1000);
     const text = randomString();
     const track = Math.random() * 100;
-    const duration = props.duration;
-    const delay = Math.random() * (props.duration / 10);
+    const duration = props.duration * 1000;
+    const delay = Math.random() * (props.duration * 100);
     const color = randomMixOklchColor();
     const size = 14 + Math.random() * 52;
     const opacity = 0.7 + Math.random() * 0.3;
@@ -48,17 +50,39 @@
       color: bullet.color,
       fontSize: `${bullet.size}px`,
       opacity: bullet.opacity,
-      animationDuration: `${bullet.duration}s`,
-      animationDelay: `${bullet.delay}s`
     }
+  }
+
+  function startBulletAnimation(e, bullet) {
+    const animation = e.animate(
+      [
+        { transform: 'translateX(0vw)'},
+        { transform: 'translateX(-150vw)'}
+      ],
+      {
+        duration: bullet.duration,
+        delay: bullet.delay,
+        iterations: 1,
+        easing: 'linear'
+      }
+    );
+
+    animation.onfinish = () => removeBullet(bullet.id);
+    animations.set(bullet.id, animation);
   }
 
   let timer;
   function startTimer() {
     if (!timer) {
-      timer = setInterval(() => {
+      timer = setInterval(async () => {
         if (bullets.value.length < 91 && Math.random() > 0.2) {
-          bullets.value.push(createBullet());
+          const bullet = createBullet();
+          bullets.value.push(bullet);
+          await nextTick();
+          const e = elMap.get(bullet.id);
+          if (e) {
+            startBulletAnimation(e, bullet);
+          }
         }
       }, 500);
     }
@@ -73,26 +97,42 @@
 
   function visibilityChangeListener() {
     if (document.visibilityState === 'visible') {
-      bullets.value.splice(10);
+      animations.forEach(animation => animation.play());
       startTimer();
     } else {
+      animations.forEach(animation => animation.pause());
       stopTimer();
     }
   }
 
-  onMounted(() => {
+  onMounted(async () => {
     for(let i = 0; i < 5; i++) {
       bullets.value.push(createBullet());
     }
+
+    await nextTick();
+    bullets.value.forEach( b => {
+      const e = elMap.get(b.id);
+      if (e) {
+        startBulletAnimation(e, b);
+      }
+    });
 
     startTimer();
     document.addEventListener('visibilitychange', visibilityChangeListener);
   })
 
   onUnmounted(() => {
-    bullets.value.splice(0);
-    
     stopTimer();
+
+    animations.forEach(anim => {
+      anim.onfinish = null;
+      anim.cancel();
+    });
+    animations.clear();
+
+    bullets.value.splice(0);
+
     document.removeEventListener('visibilitychange', visibilityChangeListener);
   })
 
@@ -100,6 +140,8 @@
     const index = bullets.value.findIndex(b => b.id === id);
     if (index !== -1) {
       bullets.value.splice(index, 1);
+      animations.delete(id);
+      elMap.delete(id);
     }
   }
 
@@ -115,17 +157,6 @@
     touch-action: none;
     left: 100vw;
     will-change: transform;
-    animation-name: scrollBullet;
-    animation-timing-function: linear;
-  }
-
-  @keyframes scrollBullet {
-    0% {
-      transform: translateX(0vw);
-    }
-    100% {
-      transform: translateX(-150vw);
-    }
   }
 
 </style>
