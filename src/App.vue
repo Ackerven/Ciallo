@@ -26,11 +26,31 @@
   import Footer from './components/Footer.vue';
 
   const CIALLO_WITH_KAOMOJI = 'Ciallo ~ (∠・ω< )⌒★';
+  let clickCount = 0;
+  let timerId = null;
 
   function playMegeruAudio() {
     const sound = new Audio(megeruAudio);
-    sound.play().catch(err => console.warn('Megeru audio play failed', err))
+    sound.play().catch(err => console.warn('Megeru audio play failed', err));
+
+    clickCount++;
+
+    if (clickCount === 1) {
+      timerId = setTimeout(() => {
+        clickCount = 0;
+        timerId = null;
+      }, 1000);
+    }
+
+    if (clickCount >= 5) {
+      clearTimeout(timerId);
+      clickCount = 0;
+      timerId = null;
+
+      window.open('https://ciallo.dog', '_blank', 'noopener');
+    }
   }
+  
 
 </script>
 
