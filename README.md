@@ -20,6 +20,10 @@ Refactored from [qxdn/ciallo](https://github.com/qxdn/ciallo) — now cuter, smo
 
    Every "Ciallo ～(∠・ω< )⌒★" gets its own color, softly blended from 因幡めぐる’s palette 💖💛💙
 
+4. **🦖 Hidden Easter Egg!**
+
+   Try quickly clicking the bouncing "Ciallo ～(∠・ω< )⌒★" **five times (within one second)** — and you’ll be whisked away to [**https://ciallo.dog**](https://ciallo.dog) to start the *Ciallo Dino Game*! 🎮💫
+
 ---
 
 > [!IMPORTANT]
